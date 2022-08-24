@@ -1,6 +1,6 @@
 main: de.theunrealflo.cloudnetapihelper.HelperMain
 name: CloudNetAPIHelper
-version: 1.0
+version: 1.1
 depend: [ CloudNet-Bridge ]
 author: TheUnreal_Flo_
 description: A helper for using the CloudNet v3 API.
