@@ -11,8 +11,7 @@ import de.dytanic.cloudnet.wrapper.Wrapper;
 
 public class HelperMain extends JavaPlugin {
 	
-	
-	public void setState(String serviceState) {
+    public void setState(String serviceState) {
         BukkitCloudNetHelper.setState(serviceState);
     }
 
@@ -44,7 +43,7 @@ public class HelperMain extends JavaPlugin {
         } else if (selectorType == "HIGHEST_PLAYERS") {
         	CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
         	.getPlayerExecutor(player.getUniqueId()).connectToGroup(group, ServerSelectorType.HIGHEST_PLAYERS);
-        } else if (selectorType == "HIGHEST_PLAYERS") {
+        } else if (selectorType == "RANDOM") {
         	CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
         	.getPlayerExecutor(player.getUniqueId()).connectToGroup(group, ServerSelectorType.RANDOM);
         }
@@ -57,7 +56,7 @@ public class HelperMain extends JavaPlugin {
         } else if (selectorType == "HIGHEST_PLAYERS") {
         	CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
         	.getPlayerExecutor(player.getUniqueId()).connectToTask(task, ServerSelectorType.HIGHEST_PLAYERS);
-        } else if (selectorType == "HIGHEST_PLAYERS") {
+        } else if (selectorType == "RANDOM") {
         	CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
         	.getPlayerExecutor(player.getUniqueId()).connectToTask(task, ServerSelectorType.RANDOM);
         }
