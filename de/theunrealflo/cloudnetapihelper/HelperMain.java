@@ -6,9 +6,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.ext.bridge.bukkit.BukkitCloudNetHelper;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
+import de.dytanic.cloudnet.ext.bridge.player.executor.ServerSelectorType;
 import de.dytanic.cloudnet.wrapper.Wrapper;
 
 public class HelperMain extends JavaPlugin {
+	
+	
 	public void setState(String serviceState) {
         BukkitCloudNetHelper.setState(serviceState);
     }
@@ -31,15 +34,32 @@ public class HelperMain extends JavaPlugin {
 
     public void sendPlayer(Player player, String server) {
         CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
-                .getPlayerExecutor(player.getUniqueId())
-                .connect(server);
+        .getPlayerExecutor(player.getUniqueId()).connect(server);
     }
 
-    public void sendPlayerToGroup(Player player, String group) {
-        CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServicesAsync(group).onComplete((task, serviceInfoSnapshots) -> {
-            if (!serviceInfoSnapshots.isEmpty()) {
-                serviceInfoSnapshots.stream().findAny().ifPresent(serviceInfoSnapshot -> sendPlayer(player, serviceInfoSnapshot.getServiceId().getName()));
-            }
-        });
+    public void sendPlayerToGroup(Player player, String group, String selectorType) {
+    	if (selectorType == "LOWEST_PLAYERS") {
+        	CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
+        	.getPlayerExecutor(player.getUniqueId()).connectToGroup(group, ServerSelectorType.LOWEST_PLAYERS);
+        } else if (selectorType == "HIGHEST_PLAYERS") {
+        	CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
+        	.getPlayerExecutor(player.getUniqueId()).connectToGroup(group, ServerSelectorType.HIGHEST_PLAYERS);
+        } else if (selectorType == "HIGHEST_PLAYERS") {
+        	CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
+        	.getPlayerExecutor(player.getUniqueId()).connectToGroup(group, ServerSelectorType.RANDOM);
+        }
+    }
+    
+    public void sendPlayerToTask(Player player, String task, String selectorType) {
+        if (selectorType == "LOWEST_PLAYERS") {
+        	CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
+        	.getPlayerExecutor(player.getUniqueId()).connectToTask(task, ServerSelectorType.LOWEST_PLAYERS);
+        } else if (selectorType == "HIGHEST_PLAYERS") {
+        	CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
+        	.getPlayerExecutor(player.getUniqueId()).connectToTask(task, ServerSelectorType.HIGHEST_PLAYERS);
+        } else if (selectorType == "HIGHEST_PLAYERS") {
+        	CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class)
+        	.getPlayerExecutor(player.getUniqueId()).connectToTask(task, ServerSelectorType.RANDOM);
+        }
     }
 }
